@@ -1,0 +1,1517 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sogni Creator Program</title>
+    <meta name="description"
+        content="The Sogni Creator Program: support and reward top creators, collect actionable product feedback, and help shape the future of Sogni.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="icon" href="https://www.sogni.ai/favicon.ico" type="image/x-icon">
+    <style>
+        /* ========== RESET & BASE ========== */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #000000;
+            --bg-card: #0a0a0a;
+            --bg-card-hover: #111111;
+            --bg-table-header: #0c1200;
+            --bg-table-row: #080808;
+            --bg-table-row-alt: #0d0d0d;
+            --accent-green: #5dfd9b;
+            --accent-green-dim: rgba(93, 253, 155, 0.15);
+            --accent-green-glow: rgba(93, 253, 155, 0.08);
+            --accent-pink: #e91e63;
+            --accent-pink-dim: rgba(233, 30, 99, 0.15);
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --text-tertiary: #666666;
+            --border-subtle: rgba(255, 255, 255, 0.06);
+            --border-accent: rgba(93, 253, 155, 0.2);
+            --font-main: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --font-mono: 'Space Mono', monospace;
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --radius-xl: 32px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* ========== SCROLLBAR ========== */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-green-dim);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-green);
+        }
+
+        /* ========== NAV ========== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-subtle);
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            padding: 0.75rem 2rem;
+            background: rgba(0, 0, 0, 0.95);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .nav-logo svg {
+            height: 28px;
+            width: auto;
+        }
+
+        .nav-logo-text {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--accent-green);
+            letter-spacing: -0.02em;
+        }
+
+        .nav-badge {
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: var(--bg-primary);
+            background: var(--accent-green);
+            padding: 0.15rem 0.5rem;
+            border-radius: 20px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.82rem;
+            font-weight: 500;
+            padding: 0.4rem 0.85rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .nav-link:hover {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-link.active {
+            color: var(--accent-green);
+        }
+
+        /* ========== HERO ========== */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 8rem 2rem 4rem;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, var(--accent-green-glow) 0%, transparent 70%);
+            pointer-events: none;
+            animation: heroPulse 6s ease-in-out infinite;
+        }
+
+        @keyframes heroPulse {
+
+            0%,
+            100% {
+                opacity: 0.4;
+                transform: translateX(-50%) scale(1);
+            }
+
+            50% {
+                opacity: 0.7;
+                transform: translateX(-50%) scale(1.1);
+            }
+        }
+
+        .hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--accent-green);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            padding: 0.5rem 1.2rem;
+            border: 1px solid var(--border-accent);
+            border-radius: 50px;
+            margin-bottom: 2rem;
+            background: var(--accent-green-dim);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .hero-eyebrow .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent-green);
+            animation: blink 2s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.3;
+            }
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 900;
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 0.8s ease-out 0.1s backwards;
+        }
+
+        .hero h1 .gradient-text {
+            background: linear-gradient(135deg, var(--accent-green) 0%, #00e5ff 50%, var(--accent-pink) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 1.3vw, 1.25rem);
+            color: var(--text-secondary);
+            max-width: 640px;
+            margin: 0 auto 3rem;
+            line-height: 1.8;
+            animation: fadeInUp 0.8s ease-out 0.2s backwards;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            animation: fadeInUp 0.8s ease-out 0.3s backwards;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.85rem 2rem;
+            background: var(--accent-green);
+            color: var(--bg-primary);
+            font-family: var(--font-main);
+            font-size: 0.9rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px var(--accent-green-dim);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 40px rgba(93, 253, 155, 0.3);
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.85rem 2rem;
+            background: transparent;
+            color: var(--text-primary);
+            font-family: var(--font-main);
+            font-size: 0.9rem;
+            font-weight: 600;
+            border: 1px solid var(--border-subtle);
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent-green);
+            background: var(--accent-green-dim);
+            color: var(--accent-green);
+        }
+
+        .hero-scroll {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-tertiary);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            animation: fadeInUp 0.8s ease-out 0.5s backwards;
+        }
+
+        .hero-scroll .arrow {
+            width: 20px;
+            height: 20px;
+            border-right: 1.5px solid var(--text-tertiary);
+            border-bottom: 1.5px solid var(--text-tertiary);
+            transform: rotate(45deg);
+            animation: scrollBounce 2s ease-in-out infinite;
+        }
+
+        @keyframes scrollBounce {
+
+            0%,
+            100% {
+                transform: rotate(45deg) translateY(0);
+            }
+
+            50% {
+                transform: rotate(45deg) translateY(5px);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ========== SECTION LAYOUT ========== */
+        .content-wrapper {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section {
+            padding: 5rem 0;
+            position: relative;
+        }
+
+        .section+.section {
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .section-label {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--accent-green);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-label::before {
+            content: '';
+            display: block;
+            width: 20px;
+            height: 1px;
+            background: var(--accent-green);
+        }
+
+        .section-title {
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-desc {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            line-height: 1.8;
+            max-width: 720px;
+            margin-bottom: 2.5rem;
+        }
+
+        /* ========== CARDS ========== */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-green-dim), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .card:hover {
+            border-color: var(--border-accent);
+            background: var(--bg-card-hover);
+            transform: translateY(-2px);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-md);
+            background: var(--accent-green-dim);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.4rem;
+        }
+
+        .card h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.01em;
+        }
+
+        .card p {
+            color: var(--text-secondary);
+            font-size: 0.92rem;
+            line-height: 1.7;
+        }
+
+        /* ========== HIGHLIGHT CARD ========== */
+        .highlight-card {
+            background: linear-gradient(135deg, rgba(93, 253, 155, 0.05) 0%, rgba(0, 229, 255, 0.03) 50%, rgba(233, 30, 99, 0.03) 100%);
+            border: 1px solid var(--border-accent);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+        }
+
+        .highlight-card h3 {
+            color: var(--accent-green);
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        /* ========== BENEFITS GRID ========== */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .benefit-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .benefit-item:hover {
+            border-color: var(--border-accent);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(93, 253, 155, 0.07);
+        }
+
+        .benefit-value {
+            font-family: var(--font-mono);
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--accent-green);
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+
+        .benefit-label {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        /* ========== TABLES ========== */
+        .table-container {
+            overflow-x: auto;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-subtle);
+            margin: 2rem 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.92rem;
+        }
+
+        thead th {
+            background: var(--bg-table-header);
+            color: var(--accent-green);
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            padding: 1rem 1.5rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-accent);
+            white-space: nowrap;
+        }
+
+        tbody td {
+            padding: 1rem 1.5rem;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border-subtle);
+            vertical-align: top;
+        }
+
+        tbody tr {
+            transition: background 0.2s ease;
+        }
+
+        tbody tr:nth-child(even) {
+            background: var(--bg-table-row-alt);
+        }
+
+        tbody tr:hover {
+            background: var(--accent-green-dim);
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        td .tag {
+            display: inline-block;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        td .tag-green {
+            color: var(--accent-green);
+            background: var(--accent-green-dim);
+        }
+
+        td .tag-pink {
+            color: var(--accent-pink);
+            background: var(--accent-pink-dim);
+        }
+
+        /* ========== LISTS ========== */
+        .styled-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .styled-list li {
+            position: relative;
+            padding: 0.6rem 0 0.6rem 1.8rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .styled-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 1.05rem;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent-green);
+        }
+
+        .styled-list.pink li::before {
+            background: var(--accent-pink);
+        }
+
+        /* ========== CHANNEL TAGS ========== */
+        .channel-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .channel-tag {
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--accent-green);
+            background: var(--accent-green-dim);
+            padding: 0.45rem 1rem;
+            border-radius: 8px;
+            border: 1px solid rgba(93, 253, 155, 0.15);
+            transition: all 0.2s ease;
+        }
+
+        .channel-tag:hover {
+            background: rgba(93, 253, 155, 0.25);
+            transform: translateY(-1px);
+        }
+
+        /* ========== STEPS ========== */
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            position: relative;
+        }
+
+        .steps::before {
+            content: '';
+            position: absolute;
+            left: 23px;
+            top: 48px;
+            bottom: 24px;
+            width: 1px;
+            background: var(--border-accent);
+        }
+
+        .step {
+            display: flex;
+            gap: 1.5rem;
+            padding: 1.5rem 0;
+        }
+
+        .step-number {
+            flex-shrink: 0;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--accent-green-dim);
+            border: 1px solid var(--border-accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--accent-green);
+            position: relative;
+            z-index: 1;
+        }
+
+        .step-content h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.4rem;
+        }
+
+        .step-content p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* ========== VIDEO SECTION ========== */
+        .video-section {
+            position: relative;
+            padding: 6rem 0;
+            text-align: center;
+        }
+
+        .video-wrapper {
+            position: relative;
+            max-width: 900px;
+            margin: 2rem auto 0;
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            border: 1px solid var(--border-accent);
+            box-shadow: 0 0 80px rgba(93, 253, 155, 0.08), 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .video-wrapper video {
+            display: block;
+            width: 100%;
+            height: auto;
+            background: #000;
+        }
+
+        /* ========== TWO COL ========== */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .col-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+        }
+
+        .col-card h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .col-card.is-good h3 {
+            color: var(--accent-green);
+        }
+
+        .col-card.is-not h3 {
+            color: var(--accent-pink);
+        }
+
+        /* ========== CALLOUT ========== */
+        .callout {
+            background: linear-gradient(135deg, rgba(93, 253, 155, 0.06) 0%, rgba(0, 0, 0, 0) 100%);
+            border-left: 3px solid var(--accent-green);
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            padding: 1.5rem 2rem;
+            margin: 2rem 0;
+        }
+
+        .callout p {
+            color: var(--text-secondary);
+            font-size: 0.92rem;
+            line-height: 1.7;
+        }
+
+        .callout strong {
+            color: var(--accent-green);
+        }
+
+        /* ========== FOOTER ========== */
+        footer {
+            border-top: 1px solid var(--border-subtle);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--accent-green);
+            margin-bottom: 0.75rem;
+        }
+
+        footer p {
+            color: var(--text-tertiary);
+            font-size: 0.8rem;
+        }
+
+        footer a {
+            color: var(--accent-green);
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+
+        footer a:hover {
+            opacity: 0.8;
+        }
+
+        /* ========== ANIMATED SECTIONS ========== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ========== MOBILE ========== */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0.75rem 1rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                padding: 7rem 1.5rem 3rem;
+                min-height: 85vh;
+            }
+
+            .content-wrapper {
+                padding: 0 1.25rem;
+            }
+
+            .section {
+                padding: 3.5rem 0;
+            }
+
+            .card {
+                padding: 1.75rem;
+            }
+
+            .two-col {
+                grid-template-columns: 1fr;
+            }
+
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .benefits-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .hero-cta {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            table {
+                font-size: 0.82rem;
+            }
+
+            thead th,
+            tbody td {
+                padding: 0.75rem 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ============ NAVBAR ============ -->
+    <nav class="navbar" id="navbar">
+        <a href="#" class="nav-logo">
+            <img src="sogni-logo.svg" alt="Sogni" style="height: 24px; width: auto;">
+            <span class="nav-badge">Creator Program</span>
+        </a>
+        <div class="nav-links">
+            <a href="#overview" class="nav-link active">Overview</a>
+            <a href="#eligibility" class="nav-link">Eligibility</a>
+            <a href="#benefits" class="nav-link">Benefits</a>
+            <a href="#expectations" class="nav-link">Expectations</a>
+            <a href="#kpis" class="nav-link">KPIs</a>
+            <a href="#process" class="nav-link">Process</a>
+            <a href="#rules" class="nav-link">Rules</a>
+        </div>
+    </nav>
+
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="top">
+        <div class="hero-eyebrow">
+            <span class="dot"></span>
+            Official Program Documentation
+        </div>
+        <h1>
+            <span class="gradient-text">Sogni Creator</span><br>Program
+        </h1>
+        <p class="hero-subtitle">
+            A collaborative program built around creativity, quality, and product improvement, designed for dedicated
+            creators who actively use Sogni and want to contribute to the platform's growth.
+        </p>
+        <div class="hero-cta">
+            <a href="#overview" class="btn-primary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 5v14M5 12l7 7 7-7" />
+                </svg>
+                Explore Program
+            </a>
+        </div>
+        <div class="hero-scroll">
+            <span>Scroll to explore</span>
+            <div class="arrow"></div>
+        </div>
+    </section>
+
+    <!-- ============ OVERVIEW ============ -->
+    <section class="section" id="overview">
+        <div class="content-wrapper reveal">
+            <div class="section-label">01 | Overview</div>
+            <h2 class="section-title">What is the Creator Program?</h2>
+            <p class="section-desc">
+                The Sogni Creator Program is designed for dedicated creators who actively use Sogni, produce
+                high&#8209;quality work, and want to contribute to the growth of the platform.
+            </p>
+
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-icon">🏆</div>
+                    <h3>Support & Reward</h3>
+                    <p>Support and reward top creators who consistently produce strong work with Sogni across all
+                        creative categories.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">💬</div>
+                    <h3>Product Feedback</h3>
+                    <p>Collect actionable product feedback from experienced users to help improve the platform and drive
+                        its evolution.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🤝</div>
+                    <h3>Collaborative Growth</h3>
+                    <p>A collaborative program built around creativity, quality, and product improvement, empowering
+                        creators and the platform together.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ WHO IS IT FOR ============ -->
+    <section class="section" id="eligibility">
+        <div class="content-wrapper reveal">
+            <div class="section-label">02 | Who It's For</div>
+            <h2 class="section-title">Who Should Apply?</h2>
+            <p class="section-desc">
+                This program is intended for creators who already create with Sogni on a regular basis and care about
+                improving the tools and contributing feedback.
+            </p>
+
+            <div class="two-col" style="margin-bottom: 2.5rem;">
+                <div class="card">
+                    <h3>Ideal Candidates</h3>
+                    <ul class="styled-list">
+                        <li>Already create with Sogni on a regular basis</li>
+                        <li>Care about improving the tools and contributing feedback</li>
+                        <li>Consistently produce high&#8209;quality work</li>
+                        <li>Want to help showcase what Sogni can do authentically</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Selection Principles</h3>
+                    <div class="table-container" style="margin: 0; border-radius: var(--radius-md);">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Criteria</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Follower count</td>
+                                    <td><span class="tag tag-pink">Does not matter</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Consistency</td>
+                                    <td><span class="tag tag-green">Matters</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Quality</td>
+                                    <td><span class="tag tag-green">Matters</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Genuine engagement</td>
+                                    <td><span class="tag tag-green">Matters</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-card">
+                <h3>⚡ Priority Access</h3>
+                <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.7;">
+                    <strong style="color: var(--text-primary);">Super Artists receive priority access</strong> to the
+                    Creator Program. Creators who do not yet hold the Super Artist role can improve their eligibility by
+                    staying active in Discord, engaging positively with the community, helping other users, and
+                    regularly sharing strong work for review.
+                </p>
+            </div>
+
+            <h3 style="margin-top: 2.5rem; margin-bottom: 1rem; font-size: 1rem; font-weight: 700;">Minimum Eligibility
+                Requirements</h3>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Requirement</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong style="color: var(--text-primary);">Super Artist Role</strong></td>
+                            <td>Hold the Super Artist role, or be actively working toward it</td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color: var(--text-primary);">Community Activity</strong></td>
+                            <td>Be active in the Sogni community</td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color: var(--text-primary);">Quality Work</strong></td>
+                            <td>Consistently share polished, high&#8209;quality work</td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color: var(--text-primary);">Visible Presence</strong></td>
+                            <td>Maintain a visible presence in relevant community channels</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 style="margin-top: 1.5rem; margin-bottom: 1rem; font-size: 1rem; font-weight: 700;">Relevant Community
+                Channels</h3>
+            <div class="channel-tags">
+                <span class="channel-tag">#AI-Slop</span>
+                <span class="channel-tag">#Artwork</span>
+                <span class="channel-tag">#Video</span>
+                <span class="channel-tag">#Music</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ BENEFITS ============ -->
+    <section class="section" id="benefits">
+        <div class="content-wrapper reveal">
+            <div class="section-label">03 | Benefits</div>
+            <h2 class="section-title">What Creators Receive</h2>
+            <p class="section-desc">
+                Approved creators receive monthly rewards, direct support from the team, and community visibility,
+                designed to support and amplify great work.
+            </p>
+
+            <div class="benefits-grid" style="margin-bottom: 2.5rem;">
+                <div class="benefit-item">
+                    <div class="benefit-value">15,000</div>
+                    <div class="benefit-label">Sparks / Month<br><span
+                            style="font-size: 0.75rem; color: var(--text-tertiary);">Across all models</span></div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-value">5,000</div>
+                    <div class="benefit-label">$SOGNI Tokens / Month</div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-value">$100</div>
+                    <div class="benefit-label">Bonus in $SOGNI<br><span
+                            style="font-size: 0.75rem; color: var(--text-tertiary);">Top 3 creators monthly</span></div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-value">✦</div>
+                    <div class="benefit-label">Team Feedback<br><span
+                            style="font-size: 0.75rem; color: var(--text-tertiary);">Direct creative support</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-bottom: 2rem;">
+                <h3>🎯 Community Spotlights</h3>
+                <p>Approved creators receive community spotlights and promotional features across Sogni channels,
+                    helping amplify their creative work and reach a wider audience.</p>
+            </div>
+
+            <div class="callout">
+                <p><strong>Reward Adjustment Clause:</strong> Sogni reserves the right to adjust token-denominated
+                    rewards if there are significant changes in the market value of the token. Any such changes will be
+                    made at Sogni's discretion to preserve the long-term sustainability and fairness of the program.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ EXPECTATIONS ============ -->
+    <section class="section" id="expectations">
+        <div class="content-wrapper reveal">
+            <div class="section-label">04 | Expectations</div>
+            <h2 class="section-title">What Sogni Expects</h2>
+            <p class="section-desc">
+                Creators accepted into the program are expected to contribute in two key areas: high&#8209;quality
+                creative
+                output and monthly product feedback.
+            </p>
+
+            <div class="two-col" style="margin-bottom: 2.5rem;">
+                <div class="card">
+                    <div class="card-icon">🎨</div>
+                    <h3>A. High-Quality Creative Output</h3>
+                    <p style="margin-bottom: 1rem;">Creators are expected to produce work that demonstrates the
+                        capabilities of Sogni. There is <strong style="color: var(--accent-green);">no required content
+                            category or style</strong>. All strong creative work is welcome.</p>
+                    <p style="font-size: 0.85rem; color: var(--text-tertiary); margin-bottom: 1rem;">Accepted formats
+                        include:</p>
+                    <div class="channel-tags">
+                        <span class="channel-tag"
+                            style="background: rgba(255,255,255,0.04); border-color: var(--border-subtle); color: var(--text-secondary);">Horror</span>
+                        <span class="channel-tag"
+                            style="background: rgba(255,255,255,0.04); border-color: var(--border-subtle); color: var(--text-secondary);">Anime</span>
+                        <span class="channel-tag"
+                            style="background: rgba(255,255,255,0.04); border-color: var(--border-subtle); color: var(--text-secondary);">Pop
+                            Culture</span>
+                        <span class="channel-tag"
+                            style="background: rgba(255,255,255,0.04); border-color: var(--border-subtle); color: var(--text-secondary);">Satire</span>
+                        <span class="channel-tag"
+                            style="background: rgba(255,255,255,0.04); border-color: var(--border-subtle); color: var(--text-secondary);">Landscapes</span>
+                        <span class="channel-tag"
+                            style="background: rgba(255,255,255,0.04); border-color: var(--border-subtle); color: var(--text-secondary);">Experimental</span>
+                        <span class="channel-tag"
+                            style="background: rgba(255,255,255,0.04); border-color: var(--border-subtle); color: var(--text-secondary);">Other
+                            Original</span>
+                    </div>
+                    <div class="callout" style="margin-top: 1.5rem; margin-bottom: 0;">
+                        <p>The evaluation standard is <strong>quality and originality</strong>, not genre.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">📝</div>
+                    <h3>B. Monthly Product Feedback</h3>
+                    <p style="margin-bottom: 1.25rem;">Creators are expected to provide regular, constructive feedback
+                        on the Sogni product experience. This feedback is reviewed directly by the team and influences
+                        product decisions.</p>
+                    <ul class="styled-list">
+                        <li>What is working well</li>
+                        <li>What is frustrating or unclear</li>
+                        <li>What should be improved</li>
+                        <li>What features or tools they would like to see built</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ POSITIONING ============ -->
+    <section class="section">
+        <div class="content-wrapper reveal">
+            <div class="section-label">05 | Positioning</div>
+            <h2 class="section-title">Program Positioning</h2>
+            <p class="section-desc">
+                Understanding what this program is, and what it isn't, is essential to maintaining its integrity and
+                the authenticity of our creator community.
+            </p>
+
+            <div class="two-col">
+                <div class="col-card is-good">
+                    <h3>✅ What This Program Is</h3>
+                    <ul class="styled-list">
+                        <li>A creator support and recognition program</li>
+                        <li>A feedback channel between experienced users and the Sogni team</li>
+                        <li>A way to highlight high&#8209;quality creative work made with Sogni</li>
+                        <li>A framework for encouraging authentic visibility through strong content</li>
+                    </ul>
+                </div>
+                <div class="col-card is-not">
+                    <h3>🚫 What This Program Is Not</h3>
+                    <ul class="styled-list pink">
+                        <li>A paid shilling or forced promotion program</li>
+                        <li>Spamming communities with low-quality content</li>
+                        <li>Posting inauthentic promotional material</li>
+                        <li>Misrepresenting opinions about the product</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="callout" style="margin-top: 2rem;">
+                <p>Creators are welcome to mention Sogni naturally when sharing their work, but <strong>authenticity is
+                        essential</strong>. The goal is to showcase strong work first, with product mention occurring
+                    organically where relevant.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ KPIs ============ -->
+    <section class="section" id="kpis">
+        <div class="content-wrapper reveal">
+            <div class="section-label">06 | KPIs</div>
+            <h2 class="section-title">Monthly Requirements</h2>
+            <p class="section-desc">
+                To remain in good standing, creators are expected to meet the following monthly KPIs and maintain
+                consistent quality across all submitted content.
+            </p>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>KPI</th>
+                            <th>Requirement</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong style="color: var(--text-primary);">External Posts</strong></td>
+                            <td><span class="tag tag-green">Min. 10 / month</span></td>
+                            <td>Qualifying posts featuring work created with Sogni</td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color: var(--text-primary);">URL Submissions</strong></td>
+                            <td><span class="tag tag-green">Min. 10 / month</span></td>
+                            <td>Submit URLs for monthly review by end of each month</td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color: var(--text-primary);">Quality Standard</strong></td>
+                            <td><span class="tag tag-green">Consistent</span></td>
+                            <td>Maintain consistent quality across all submitted content</td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color: var(--text-primary);">Distribution</strong></td>
+                            <td><span class="tag tag-green">External</span></td>
+                            <td>Share content in relevant external communities & platforms</td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color: var(--text-primary);">Compliance</strong></td>
+                            <td><span class="tag tag-green">Verified</span></td>
+                            <td>All submissions must be authentic, verifiable, and compliant</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="highlight-card" style="margin-top: 2rem;">
+                <h3>📋 Qualifying Post Criteria</h3>
+                <ul class="styled-list" style="margin-top: 0.5rem;">
+                    <li>Published in a relevant external community or platform</li>
+                    <li>Features meaningful creative output made with Sogni</li>
+                    <li>Meets the expected quality standard</li>
+                    <li>Represents authentic participation, not spam</li>
+                    <li>Suitable for manual review by moderators</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ PROCESS ============ -->
+    <section class="section" id="process">
+        <div class="content-wrapper reveal">
+            <div class="section-label">07 | Process</div>
+            <h2 class="section-title">Monthly Submission & Review</h2>
+            <p class="section-desc">
+                The monthly cycle is straightforward: create, submit, review, and earn. Here's how it works step by
+                step.
+            </p>
+
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">01</div>
+                    <div class="step-content">
+                        <h4>Create & Publish</h4>
+                        <p>Creators publish qualifying content throughout the month across relevant external communities
+                            and platforms.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">02</div>
+                    <div class="step-content">
+                        <h4>Submit Links</h4>
+                        <p>By the end of each month, creators submit their post links through the designated form for
+                            review.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">03</div>
+                    <div class="step-content">
+                        <h4>Moderator Review</h4>
+                        <p>Moderators review submissions for quality, authenticity, relevance, and compliance with
+                            program standards.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">04</div>
+                    <div class="step-content">
+                        <h4>Rewards Distribution</h4>
+                        <p>Rewards are distributed within the first two weeks of the following month based on the
+                            evaluation.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ REWARD CALCULATION ============ -->
+    <section class="section">
+        <div class="content-wrapper reveal">
+            <div class="section-label">08 | Reward Calculation</div>
+            <h2 class="section-title">How Rewards Are Determined</h2>
+            <p class="section-desc">
+                Monthly rewards are not based solely on post count. Reward allocation is determined proportionally,
+                rewarding both quality and consistency.
+            </p>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Factor</th>
+                            <th>Impact</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong style="color: var(--text-primary);">Number of qualifying submissions</strong>
+                            </td>
+                            <td>More qualifying posts contribute to higher reward allocation</td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color: var(--text-primary);">Quality of submissions</strong></td>
+                            <td>Higher-quality work leads to stronger reward outcomes</td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color: var(--text-primary);">Overall value & impact</strong></td>
+                            <td>The overall contribution and impact of the creator's monthly work</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="callout" style="margin-top: 1.5rem;">
+                <p>Lower activity or lower quality may result in a <strong>reduced reward</strong>. Higher-quality and
+                    more consistent contributions may lead to <strong>stronger reward outcomes</strong>.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ RULES ============ -->
+    <section class="section" id="rules">
+        <div class="content-wrapper reveal">
+            <div class="section-label">09 | Program Rules</div>
+            <h2 class="section-title">General Program Rules</h2>
+            <p class="section-desc">
+                All participants are expected to maintain professional standards and act with integrity throughout the
+                program.
+            </p>
+
+            <div class="two-col">
+                <div class="card">
+                    <h3>Participant Responsibilities</h3>
+                    <ul class="styled-list">
+                        <li>Follow community and platform rules</li>
+                        <li>Maintain respectful and professional conduct</li>
+                        <li>Submit only genuine and verifiable work</li>
+                        <li>Avoid spammy, misleading, or low-effort promotion</li>
+                        <li>Represent their use of Sogni honestly</li>
+                        <li>Comply with moderator review and program decisions</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Sogni Reserves the Right To</h3>
+                    <ul class="styled-list">
+                        <li>Review all submissions manually</li>
+                        <li>Reject submissions below quality/authenticity standards</li>
+                        <li>Adjust eligibility requirements</li>
+                        <li>Update KPI expectations</li>
+                        <li>Modify reward structures</li>
+                        <li>Remove participants who don't meet program standards</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="callout" style="margin-top: 2rem;">
+                <p>A list of recommended AI communities and relevant external channels will be shared in the
+                    <strong>#Sogni Creator</strong> channel on Discord.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ PERFORMANCE & REMOVAL ============ -->
+    <section class="section">
+        <div class="content-wrapper reveal">
+            <div class="section-label">10 | Performance Standards</div>
+            <h2 class="section-title">Performance & Removal Policy</h2>
+            <p class="section-desc">
+                Creators are expected to maintain the program's monthly KPI and quality standards on an ongoing basis.
+            </p>
+
+            <div class="highlight-card">
+                <h3>⚠️ Two-Month Policy</h3>
+                <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.8;">
+                    If a creator fails to meet the required KPI or program standards for <strong
+                        style="color: var(--accent-pink);">two consecutive months</strong>, Sogni reserves the right to
+                    remove that creator from the program. This approach is intended to provide flexibility while
+                    maintaining a consistent standard. Removed creators may be considered again in the future at Sogni's
+                    discretion.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ VIDEO ============ -->
+    <section class="video-section section" id="video">
+        <div class="content-wrapper reveal">
+            <div class="section-label" style="justify-content: center;">Made with Sogni</div>
+            <h2 class="section-title" style="text-align: center;">See What's Possible</h2>
+            <div class="video-wrapper">
+                <video autoplay muted loop playsinline preload="auto">
+                    <source src="love.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ FOOTER ============ -->
+    <footer>
+        <div class="footer-logo"><img src="sogni-logo.svg" alt="Sogni" style="height: 28px; width: auto;"></div>
+        <p>Sogni Creator Program · Official Documentation &nbsp;·&nbsp; <a href="https://www.sogni.ai"
+                target="_blank">sogni.ai</a></p>
+        <p style="margin-top: 0.5rem; font-size: 0.7rem; color: var(--text-tertiary);">© 2025 Sogni. All rights
+            reserved.</p>
+    </footer>
+
+    <!-- ============ SCRIPTS ============ -->
+    <script>
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Active nav link on scroll
+        const sections = document.querySelectorAll('.section[id], .hero[id], .video-section[id]');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 120;
+                if (window.scrollY >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
+            });
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Reveal on scroll
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // Smooth scroll for nav links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>
