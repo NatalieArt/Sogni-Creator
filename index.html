@@ -847,12 +847,12 @@
             }
 
             .nav-links {
-                display: none;
+                display: none !important;
             }
 
             .hero {
-                padding: 7rem 1.5rem 3rem;
-                min-height: 85vh;
+                padding: 5rem 1.5rem 2.5rem;
+                min-height: auto;
             }
 
             .content-wrapper {
@@ -914,6 +914,18 @@
         @media (max-width: 480px) {
             .benefits-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 0.9rem;
+            }
+
+            .hero-eyebrow {
+                font-size: 0.65rem;
             }
         }
     </style>
