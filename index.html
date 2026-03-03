@@ -843,42 +843,25 @@
         /* ========== SHOWCASE ========== */
         .showcase-scroll {
             width: 100%;
-            overflow-x: auto;
-            overflow-y: hidden;
             padding: 1.5rem 0 1rem;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: thin;
-            scrollbar-color: var(--accent-green-dim) transparent;
-        }
-
-        .showcase-scroll::-webkit-scrollbar {
-            height: 4px;
-        }
-
-        .showcase-scroll::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .showcase-scroll::-webkit-scrollbar-thumb {
-            background: var(--accent-green-dim);
-            border-radius: 4px;
         }
 
         .showcase-track {
-            display: flex;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
             gap: 1.25rem;
-            padding: 0 max(2rem, calc((100vw - 1100px) / 2));
-            width: max-content;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
         }
 
         .showcase-item {
-            flex-shrink: 0;
-            width: 220px;
+            width: 100%;
         }
 
         .showcase-item video {
             width: 100%;
-            height: 280px;
+            height: 260px;
             object-fit: cover;
             border-radius: 12px;
             border: 1px solid var(--border-subtle);
@@ -926,6 +909,20 @@
             .btn-primary {
                 padding: 0.7rem 1.5rem;
                 font-size: 0.85rem;
+            }
+
+            .showcase-track {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.75rem;
+                padding: 0 1rem;
+            }
+
+            .showcase-item video {
+                height: 200px;
+            }
+
+            .showcase-caption {
+                font-size: 0.7rem;
             }
 
             .content-wrapper {
