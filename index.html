@@ -840,6 +840,66 @@
             transform: translateY(0);
         }
 
+        /* ========== SHOWCASE ========== */
+        .showcase-scroll {
+            width: 100%;
+            overflow-x: auto;
+            overflow-y: hidden;
+            padding: 1.5rem 0 1rem;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent-green-dim) transparent;
+        }
+
+        .showcase-scroll::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .showcase-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .showcase-scroll::-webkit-scrollbar-thumb {
+            background: var(--accent-green-dim);
+            border-radius: 4px;
+        }
+
+        .showcase-track {
+            display: flex;
+            gap: 1.25rem;
+            padding: 0 max(2rem, calc((100vw - 1100px) / 2));
+            width: max-content;
+        }
+
+        .showcase-item {
+            flex-shrink: 0;
+            width: 220px;
+        }
+
+        .showcase-item video {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 1px solid var(--border-subtle);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .showcase-item:hover video {
+            transform: scale(1.03);
+            border-color: var(--accent-green);
+        }
+
+        .showcase-caption {
+            margin-top: 0.6rem;
+            font-size: 0.78rem;
+            font-weight: 500;
+            color: var(--text-tertiary);
+            text-align: center;
+            line-height: 1.4;
+            font-style: italic;
+        }
+
         /* ========== MOBILE ========== */
         @media (max-width: 768px) {
             .navbar {
@@ -994,6 +1054,52 @@
         <div class="hero-scroll">
             <span>Scroll to explore</span>
             <div class="arrow"></div>
+        </div>
+    </section>
+
+    <!-- ============ CREATOR SHOWCASE ============ -->
+    <section class="section" style="padding: 3rem 0 1rem;">
+        <div class="content-wrapper reveal">
+            <div class="section-label" style="text-align: center;">Made with Sogni</div>
+            <h2 class="section-title" style="text-align: center; margin-bottom: 0.5rem;">Creator Showcase</h2>
+            <p class="section-desc" style="text-align: center;">Real work from real creators. Every frame powered by the
+                Sogni Super App.</p>
+        </div>
+        <div class="showcase-scroll">
+            <div class="showcase-track">
+                <div class="showcase-item">
+                    <video src="example1.mp4" autoplay muted loop playsinline></video>
+                    <p class="showcase-caption">Your vision, zero compromise.</p>
+                </div>
+                <div class="showcase-item">
+                    <video src="example2.mp4" autoplay muted loop playsinline></video>
+                    <p class="showcase-caption">Craft meets code. Pure imagination.</p>
+                </div>
+                <div class="showcase-item">
+                    <video src="example3.mp4" autoplay muted loop playsinline></video>
+                    <p class="showcase-caption">Dark, beautiful, unapologetically yours.</p>
+                </div>
+                <div class="showcase-item">
+                    <video src="example4.mp4" autoplay muted loop playsinline></video>
+                    <p class="showcase-caption">Set the mood. Tell the story.</p>
+                </div>
+                <div class="showcase-item">
+                    <video src="example5.mp4" autoplay muted loop playsinline></video>
+                    <p class="showcase-caption">From concept to commercial in minutes.</p>
+                </div>
+                <div class="showcase-item">
+                    <video src="example6.mp4" autoplay muted loop playsinline></video>
+                    <p class="showcase-caption">Ideas made real. As fast as you imagine.</p>
+                </div>
+                <div class="showcase-item">
+                    <video src="example7.mp4" autoplay muted loop playsinline></video>
+                    <p class="showcase-caption">No limits. No filters. Just create.</p>
+                </div>
+                <div class="showcase-item">
+                    <video src="example8.mp4" autoplay muted loop playsinline></video>
+                    <p class="showcase-caption">The AI is the brush. You're the artist.</p>
+                </div>
+            </div>
         </div>
     </section>
 
