@@ -1061,51 +1061,51 @@
         <div class="showcase-scroll">
             <div class="showcase-track">
                 <div class="showcase-item">
-                    <video src="4kofff.mp4" autoplay muted loop playsinline></video>
+                    <video src="4kofff.mp4" autoplay muted loop playsinline preload="none"></video>
                     <p class="showcase-caption">by 4kofff</p>
                 </div>
                 <div class="showcase-item">
-                    <video src="doesnt_care.mp4" autoplay muted loop playsinline></video>
+                    <video src="doesnt_care.mp4" autoplay muted loop playsinline preload="none"></video>
                     <p class="showcase-caption">by Doesn't Care</p>
                 </div>
                 <div class="showcase-item">
-                    <video src="hadiprasetyo.mp4" autoplay muted loop playsinline></video>
+                    <video src="hadiprasetyo.mp4" autoplay muted loop playsinline preload="none"></video>
                     <p class="showcase-caption">by Hadiprasetyo</p>
                 </div>
                 <div class="showcase-item">
-                    <video src="arrrthurr.mp4" autoplay muted loop playsinline></video>
+                    <video src="arrrthurr.mp4" autoplay muted loop playsinline preload="none"></video>
                     <p class="showcase-caption">by arrrthurr</p>
                 </div>
                 <div class="showcase-item">
-                    <video src="isha.mp4" autoplay muted loop playsinline></video>
+                    <video src="isha.mp4" autoplay muted loop playsinline preload="none"></video>
                     <p class="showcase-caption">by Isha</p>
                 </div>
                 <div class="showcase-item">
-                    <video src="karinparamitha.mp4" autoplay muted loop playsinline></video>
+                    <video src="karinparamitha.mp4" autoplay muted loop playsinline preload="none"></video>
                     <p class="showcase-caption">by karinparamitha</p>
                 </div>
                 <div class="showcase-item">
-                    <video src="maciasux.mp4" autoplay muted loop playsinline></video>
+                    <video src="maciasux.mp4" autoplay muted loop playsinline preload="none"></video>
                     <p class="showcase-caption">by maciasux</p>
                 </div>
                 <div class="showcase-item">
-                    <video src="mercypresh.mp4" autoplay muted loop playsinline></video>
+                    <video src="mercypresh.mp4" autoplay muted loop playsinline preload="none"></video>
                     <p class="showcase-caption">by Mercypresh</p>
                 </div>
                 <div class="showcase-item">
-                    <video src="nani_lattour.mp4" autoplay muted loop playsinline></video>
+                    <video src="nani_lattour.mp4" autoplay muted loop playsinline preload="none"></video>
                     <p class="showcase-caption">by Nani Lattour</p>
                 </div>
                 <div class="showcase-item">
-                    <video src="syntax.mp4" autoplay muted loop playsinline></video>
+                    <video src="syntax.mp4" autoplay muted loop playsinline preload="none"></video>
                     <p class="showcase-caption">by Syntax</p>
                 </div>
                 <div class="showcase-item">
-                    <video src="toshi.mp4" autoplay muted loop playsinline></video>
+                    <video src="toshi.mp4" autoplay muted loop playsinline preload="none"></video>
                     <p class="showcase-caption">by toshi</p>
                 </div>
                 <div class="showcase-item">
-                    <video src="yoradoang.mp4" autoplay muted loop playsinline></video>
+                    <video src="yoradoang.mp4" autoplay muted loop playsinline preload="none"></video>
                     <p class="showcase-caption">by yoradoang</p>
                 </div>
             </div>
@@ -1714,6 +1714,39 @@
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
                     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Force autoplay on mobile: play videos when visible, pause when not
+        const showcaseVideos = document.querySelectorAll('.showcase-item video, .video-wrapper video');
+        const videoObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const video = entry.target;
+                if (entry.isIntersecting) {
+                    video.play().catch(() => { });
+                } else {
+                    video.pause();
+                }
+            });
+        }, { threshold: 0.2 });
+
+        showcaseVideos.forEach(video => {
+            video.setAttribute('playsinline', '');
+            video.setAttribute('muted', '');
+            video.muted = true;
+            videoObserver.observe(video);
+        });
+
+        // Also handle page visibility changes (tab switch, lock screen)
+        document.addEventListener('visibilitychange', () => {
+            showcaseVideos.forEach(video => {
+                if (document.hidden) {
+                    video.pause();
+                } else {
+                    const rect = video.getBoundingClientRect();
+                    const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+                    if (isVisible) video.play().catch(() => { });
                 }
             });
         });
